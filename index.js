@@ -24,6 +24,6 @@ controller.on('direct_mention,direct_message', (bot, msg) => {
         }
 
     } else {
-        bot.reply(msg, 'Include a zipcode ya idiot');
+        bot.reply(msg, 'Give me a zipcode ya idiot');
     }
 });

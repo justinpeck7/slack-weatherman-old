@@ -6,7 +6,7 @@ const secrets = require('./secrets'),
     botkit = require('botkit'),
     request = require('request'),
     controller = botkit.slackbot(),
-    ziptest = /\s(\d{5})(?=\s)/g, //why doesn't javascript regex support lookbehind?
+    ziptest = /(\b\d{5}\b)/g,
     weatherman = controller.spawn({
         token: token
     }).startRTM();
@@ -17,7 +17,6 @@ controller.on('direct_mention,direct_message', (bot, msg) => {
 
     if (!!matches) {
         for (let zip of matches) {
-            zip = zip.replace(/\s/, '');
             request(`http://api.openweathermap.org/data/2.5/weather?zip=${zip},us&appid=${api}&units=imperial`, function(err, response, body) {
                 let info = JSON.parse(body);
                 bot.reply(msg, `Weather in ${info.name}: ${info.main.temp} degrees, ${info.weather[0].description}, wind speed is ${info.wind.speed}mph`);

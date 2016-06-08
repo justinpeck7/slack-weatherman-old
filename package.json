@@ -1,13 +1,10 @@
 {
   "name": "weatherman",
   "version": "1.0.0",
-  "description": "",
+  "description": "weatherman slack bot",
   "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "",
-  "license": "ISC",
+  "author": "Justin Peck",
+  "license": "MIT",
   "dependencies": {
     "botkit": "^0.2.0",
     "request": "^2.72.0"

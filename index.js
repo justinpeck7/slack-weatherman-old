@@ -22,7 +22,14 @@ controller.on('direct_mention,direct_message', (bot, msg) => {
                 bot.reply(msg, `Weather in ${info.name}: ${info.main.temp} degrees, ${info.weather[0].description}, wind speed is ${info.wind.speed}mph`);
             });
         }
-    } else {
-        bot.reply(msg, 'Give me a zipcode ya idiot');
+    }
+});
+
+controller.hears('eval', 'ambient,direct_message', (bot, msg) => {
+    try {
+        const response = eval(msg.text.replace('eval ', ''));
+        bot.reply(msg, `${response}`);
+    } catch (error) {
+        bot.reply(msg, `${error}`);
     }
 });

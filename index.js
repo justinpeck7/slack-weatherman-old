@@ -25,9 +25,9 @@ controller.on('direct_mention,direct_message', (bot, msg) => {
     }
 });
 
-controller.hears('eval', 'ambient,direct_message', (bot, msg) => {
+controller.hears('!eval', 'ambient,direct_message', (bot, msg) => {
     try {
-        const response = eval(msg.text.replace('eval ', ''));
+        const response = eval(msg.text.replace(/(!eval\b)/g, ''));
         bot.reply(msg, `${response}`);
     } catch (error) {
         bot.reply(msg, `${error}`);

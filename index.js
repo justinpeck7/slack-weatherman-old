@@ -3,7 +3,6 @@
 const secrets = require('./secrets'),
     commands = require('./commands'),
     token = secrets.slack_token,
-    api = secrets.weather_api,
     botkit = require('botkit'),
     controller = botkit.slackbot(),
     weatherman = controller.spawn({

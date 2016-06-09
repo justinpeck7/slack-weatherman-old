@@ -19,7 +19,9 @@ let forecast = (bot, message) => {
 
 let evaluate = (bot, message) => {
     try {
-        const response = eval(message.text.replace(/(!eval\b)/g, ''));
+        const strToEval = message.text.replace(/(!eval\b)/g, '').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&'),
+            response = eval(strToEval);
+
         bot.reply(message, `${response}`);
     } catch (error) {
         bot.reply(message, `${error}`);

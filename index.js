@@ -17,12 +17,13 @@ setInterval(() => {
     }).startRTM();
 }, 450000);
 
-controller.on('direct_mention', (bot, msg) => {
-    bot.reply(msg, 'Commands:');
-    bot.reply(msg, '!forecast {zipcode}');
-    bot.reply(msg, '!eval {javascript}');
+controller.on('direct_mention', (bot, message) => {
+    bot.reply(message, 'Commands:');
+    bot.reply(message, '!weather {space separated zipcodes}');
+    bot.reply(message, '!forecast {day} {zipcode}');
+    bot.reply(message, '!eval {javascript}');
 });
 
-controller.hears('!weather', 'ambient,direct_message', commands.forecast);
-
+controller.hears('!weather', 'ambient,direct_message', commands.weather);
+controller.hears('!forecast', 'ambient,direct_message', commands.forecast);
 controller.hears('!eval', 'ambient,direct_message', commands.evaluate);

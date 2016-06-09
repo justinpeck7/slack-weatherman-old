@@ -76,6 +76,6 @@ let evaluate = (bot, message) => {
 
 module.exports = {
     weather: weather,
-    forecast: forecas,
+    forecast: forecast,
     evaluate: evaluate
 };

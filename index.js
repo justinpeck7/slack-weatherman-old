@@ -15,7 +15,7 @@ setInterval(() => {
     weatherman = controller.spawn({
         token: token
     }).startRTM();
-}, 450000);
+}, 600000);
 
 controller.on('direct_mention', (bot, message) => {
     bot.reply(message, 'Commands:');

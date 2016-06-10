@@ -27,3 +27,4 @@ controller.on('direct_mention', (bot, message) => {
 controller.hears('!weather', 'ambient,direct_message', commands.weather);
 controller.hears('!forecast', 'ambient,direct_message', commands.forecast);
 controller.hears('!eval', 'ambient,direct_message', commands.evaluate);
+controller.hears('!say', 'direct_message', commands.say);

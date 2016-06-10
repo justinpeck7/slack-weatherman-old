@@ -3,6 +3,7 @@
 let channels;
 const request = require('request'),
     secrets = require('./secrets'),
+    safeEval = require('safe-eval'),
     api = secrets.weather_api,
     token = secrets.slack_token,
     ziptest = /(\b\d{5}\b)/g,
@@ -87,7 +88,7 @@ let evaluate = (bot, message) => {
                 .replace(/&amp;/g, '&')
                 .replace(/‘/g, '\'')
                 .replace(/“/g, '"'),
-                response = eval(strToEval);
+                response = safeEval(strToEval);
 
             bot.reply(message, `${response}`);
         } catch (error) {

@@ -79,7 +79,9 @@ let evaluate = (bot, message) => {
             .replace(/(!eval\b)/g, '')
             .replace(/&lt;/g, '<')
             .replace(/&gt;/g, '>')
-            .replace(/&amp;/g, '&'),
+            .replace(/&amp;/g, '&')
+            .replace(/‘/g, '\'')
+            .replace(/“/g, '"'),
             response = eval(strToEval);
 
         bot.reply(message, `${response}`);

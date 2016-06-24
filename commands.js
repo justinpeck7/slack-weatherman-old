@@ -35,8 +35,12 @@ let weather = (bot, message) => {
         if (!!matches) {
             for (const zip of matches) {
                 request(`http://api.openweathermap.org/data/2.5/weather?zip=${zip},us&appid=${api}&units=imperial`, (err, response, body) => {
-                    const data = JSON.parse(body);
-                    bot.reply(message, `Weather in ${data.name}: ${data.main.temp} degrees, ${data.weather[0].description}, wind speed is ${data.wind.speed}mph`);
+                    try {
+                        const data = JSON.parse(body);
+                        bot.reply(message, `Weather in ${data.name}: ${data.main.temp} degrees, ${data.weather[0].description}, wind speed is ${data.wind.speed}mph`);
+                    } catch (error) {
+                        bot.reply(message, 'Server error, not my fault. Try again later I guess.');
+                    }
                 });
             }
         }
@@ -55,23 +59,26 @@ let forecast = (bot, message) => {
         }
         else {
             request(`http://api.openweathermap.org/data/2.5/forecast?zip=${zip},us&appid=${api}&units=imperial`, (err, response, body) => {
-                const data = JSON.parse(body),
-                    city = data.city.name;
+                try {
+                    const data = JSON.parse(body),
+                        city = data.city.name;
 
-                for (const hourly of data.list) {
-                    const d = new Date(hourly.dt_txt);
+                    for (const hourly of data.list) {
+                        const d = new Date(hourly.dt_txt);
 
-                    if (d.getDay() === days[day] && d.getHours() === 21) {
-                        forecastData = hourly;
-                        break;
+                        if (d.getDay() === days[day] && d.getHours() === 21) {
+                            forecastData = hourly;
+                            break;
+                        }
                     }
-                }
-
-                if (!!forecastData) {
-                    bot.reply(message, `It will be ${forecastData.main.temp_max} degrees in ${city} on ${day.charAt(0) + day.slice(1).toLowerCase()}`);
-                }
-                else {
-                    bot.reply(message, 'No data');
+                    if (!!forecastData) {
+                        bot.reply(message, `It will be ${forecastData.main.temp_max} degrees in ${city} on ${day.charAt(0) + day.slice(1).toLowerCase()}`);
+                    }
+                    else {
+                        bot.reply(message, 'No data');
+                    }
+                } catch (error) {
+                    bot.reply(message, 'Server error, not my fault. Try again later I guess.');
                 }
             });
         }

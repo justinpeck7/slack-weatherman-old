@@ -1,6 +1,6 @@
 'use strict';
 
-const secrets = require('./secrets'),
+const secrets = require('./config/secrets'),
     commands = require('./commands'),
     token = secrets.slack_token,
     botkit = require('botkit'),
@@ -15,7 +15,7 @@ setInterval(() => {
     weatherman = controller.spawn({
         token: token
     }).startRTM();
-}, 600000);
+}, 3600000);
 
 controller.on('direct_mention', (bot, message) => {
     bot.reply(message, 'Commands:');

@@ -2,7 +2,7 @@
 
 let channels;
 const request = require('request'),
-    secrets = require('./secrets'),
+    secrets = require('./config/secrets'),
     safeEval = require('safe-eval'),
     api = secrets.weather_api,
     token = secrets.slack_token,

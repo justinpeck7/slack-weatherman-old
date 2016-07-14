@@ -4,18 +4,29 @@ const secrets = require('./config/secrets'),
     commands = require('./commands'),
     token = secrets.slack_token,
     botkit = require('botkit'),
+    dns = require('dns'),
     controller = botkit.slackbot();
 
 let weatherman = controller.spawn({
-        token: token
-    }).startRTM();
+    token: token
+}).startRTM();
 
-setInterval(() => {
-    weatherman.closeRTM();
+const resetBot = function () {
     weatherman = controller.spawn({
         token: token
     }).startRTM();
-}, 600000);
+};
+
+controller.on('rtm_close', () => {
+    const intervalID = setInterval(() => {
+        dns.lookupService('8.8.8.8', 80, (error, hostname) => {
+            if (!!hostname) {
+                resetBot();
+                clearInterval(intervalID);
+            }
+        });
+    }, 30000);
+});
 
 controller.on('direct_mention', (bot, message) => {
     bot.reply(message, 'Commands:');

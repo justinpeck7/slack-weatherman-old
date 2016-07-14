@@ -5,9 +5,9 @@ const secrets = require('./config/secrets'),
     token = secrets.slack_token,
     botkit = require('botkit'),
     dns = require('dns'),
-    logStream = require('fs').createWriteStream('log.txt'),
+    logStream = require('fs').createWriteStream(require('path').resolve(__dirname, 'logging/log.txt')),
     controller = botkit.slackbot();
-
+    
 let weatherman;
 
 const startBot = function () {

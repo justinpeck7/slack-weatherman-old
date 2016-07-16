@@ -36,10 +36,12 @@ controller.on('direct_mention', (bot, message) => {
     bot.reply(message, 'Commands:');
     bot.reply(message, '!weather {space separated zipcodes}');
     bot.reply(message, '!forecast {day} {zipcode}');
+    bot.reply(message, '!define {word}');
     bot.reply(message, '!eval {javascript}');
 });
 
 controller.hears('!weather', 'ambient,direct_message', commands.weather);
 controller.hears('!forecast', 'ambient,direct_message', commands.forecast);
 controller.hears('!eval', 'ambient,direct_message', commands.evaluate);
+controller.hears('!define', 'ambient,direct_message', commands.define);
 controller.hears('!say', 'direct_message', commands.say);

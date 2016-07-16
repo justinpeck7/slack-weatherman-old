@@ -104,6 +104,25 @@ let evaluate = (bot, message) => {
     }
 };
 
+let define = (bot, message) => {
+    if(message.text.split(' ').length > 2) {
+        return bot.reply(message, 'Wrong syntax');
+    }
+    const word = message.text.split(' ')[1];
+
+    request(`http://api.urbandictionary.com/v0/define?term=${word}`, (err, response, body) => {
+        const data = JSON.parse(body);
+
+        if (data.result_type === 'exact') {
+            bot.reply(message, `"${data.list[0].definition}"`);
+            bot.reply(message, `Related: ${data.tags.join(', ')}`);
+        }
+        else {
+            bot.reply(message, 'No results');
+        }
+    });
+};
+
 let say = (bot, message) => {
     if (message.text.split(' ')[0] === '!say') {
         let [inputChannel, ...rest] = message.text.split(' ').splice(1),
@@ -134,5 +153,6 @@ module.exports = {
     weather: weather,
     forecast: forecast,
     evaluate: evaluate,
+    define: define,
     say: say
 };

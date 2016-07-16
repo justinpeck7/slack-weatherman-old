@@ -113,7 +113,7 @@ let define = (bot, message) => {
 
         if (data.result_type === 'exact') {
             bot.reply(message, `"${data.list[0].definition}"`);
-            if (data.tags.legnth > 0) {
+            if (data.tags.length > 0) {
                 bot.reply(message, `Related: ${data.tags.join(', ')}`);
             }
         }

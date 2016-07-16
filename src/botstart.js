@@ -33,8 +33,8 @@ controller.on('rtm_close', () => {
 });
 
 controller.on('direct_mention', (bot, message) => {
-    bot.reply(message, 'Commands:');
-    bot.reply(message, '!weather {space separated zipcodes}');
+    bot.reply(message, 'How to order me around:');
+    bot.reply(message, '!weather {zipcodes}');
     bot.reply(message, '!forecast {day} {zipcode}');
     bot.reply(message, '!define {word}');
     bot.reply(message, '!eval {javascript}');

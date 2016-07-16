@@ -105,14 +105,16 @@ let evaluate = (bot, message) => {
 };
 
 let define = (bot, message) => {
-    const words = message.text.split(' ').splice(1);
+    const words = message.text.split(' ').splice(1).join(' ');
 
     request(`http://api.urbandictionary.com/v0/define?term=${words}`, (err, response, body) => {
         const data = JSON.parse(body);
 
         if (data.result_type === 'exact') {
             bot.reply(message, `"${data.list[0].definition}"`);
-            bot.reply(message, `Related: ${data.tags.join(', ')}`);
+            if (data.tags.legnth > 0) {
+                bot.reply(message, `Related: ${data.tags.join(', ')}`);
+            }
         }
         else {
             bot.reply(message, 'No results');

@@ -3,8 +3,9 @@
 let channels;
 const request = require('request'),
     secrets = require('./config/secrets'),
+    services = require('./services'),
     safeEval = require('safe-eval'),
-    api = secrets.weather_api,
+    appId = secrets.weather_appid,
     token = secrets.slack_token,
     ziptest = /(\b\d{5}\b)/g,
     days = {
@@ -17,8 +18,8 @@ const request = require('request'),
         SATURDAY: 6
     };
 
-request(`https://slack.com/api/channels.list?token=${token}`, (cErr, cResponse, cBody) => {
-    request(`https://slack.com/api/groups.list?token=${token}`, (gErr, gResponse, gBody) => {
+request(services.slackChannelApi(token), (cErr, cResponse, cBody) => {
+    request(services.slackGroupApi(token), (gErr, gResponse, gBody) => {
         channels = JSON.parse(cBody).channels;
         let groups = JSON.parse(gBody).groups;
         for (let group of groups) {
@@ -34,7 +35,7 @@ let weather = (bot, message) => {
 
         if (!!matches) {
             for (const zip of matches) {
-                request(`http://api.openweathermap.org/data/2.5/weather?zip=${zip},us&appid=${api}&units=imperial`, (err, response, body) => {
+                request(services.weatherDataApi(zip, appId), (err, response, body) => {
                     try {
                         const data = JSON.parse(body);
                         bot.reply(message, `Weather in ${data.name}: ${data.main.temp} degrees, ${data.weather[0].description}, wind speed is ${data.wind.speed}mph`);
@@ -58,7 +59,7 @@ let forecast = (bot, message) => {
             bot.reply(message, '!forecast {day - within 4 of current day} {zipcode}');
         }
         else {
-            request(`http://api.openweathermap.org/data/2.5/forecast?zip=${zip},us&appid=${api}&units=imperial`, (err, response, body) => {
+            request(services.forecastDataApi(zip, appId), (err, response, body) => {
                 try {
                     const data = JSON.parse(body),
                         city = data.city.name;
@@ -107,7 +108,7 @@ let evaluate = (bot, message) => {
 let define = (bot, message) => {
     const words = message.text.split(' ').splice(1).join(' ');
 
-    request(`http://api.urbandictionary.com/v0/define?term=${words}`, (err, response, body) => {
+    request(services.urbanDictApi(words), (err, response, body) => {
         const data = JSON.parse(body);
 
         if (data.result_type === 'exact') {
@@ -149,9 +150,9 @@ let say = (bot, message) => {
 };
 
 module.exports = {
-    weather: weather,
-    forecast: forecast,
-    evaluate: evaluate,
-    define: define,
-    say: say
+    weather,
+    forecast,
+    evaluate,
+    define,
+    say
 };

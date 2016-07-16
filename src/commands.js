@@ -105,9 +105,9 @@ let evaluate = (bot, message) => {
 };
 
 let define = (bot, message) => {
-    const word = message.text.split(' ')[1];
+    const words = message.text.split(' ').splice(1);
 
-    request(`http://api.urbandictionary.com/v0/define?term=${word}`, (err, response, body) => {
+    request(`http://api.urbandictionary.com/v0/define?term=${words}`, (err, response, body) => {
         const data = JSON.parse(body);
 
         if (data.result_type === 'exact') {

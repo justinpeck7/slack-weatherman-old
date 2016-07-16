@@ -105,9 +105,6 @@ let evaluate = (bot, message) => {
 };
 
 let define = (bot, message) => {
-    if(message.text.split(' ').length > 2) {
-        return bot.reply(message, 'Wrong syntax');
-    }
     const word = message.text.split(' ')[1];
 
     request(`http://api.urbandictionary.com/v0/define?term=${word}`, (err, response, body) => {

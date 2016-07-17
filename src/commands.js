@@ -30,7 +30,7 @@ request(services.slackChannelApi(token), (cErr, cResponse, cBody) => {
 });
 
 let weather = (bot, message) => {
-    if (message.text.split(' ')[0] === '!weather') {
+    if (message.text.split(' ')[0].toLowerCase() === '!weather') {
         const matches = message.text.match(ziptest);
 
         if (!!matches) {
@@ -49,7 +49,7 @@ let weather = (bot, message) => {
 };
 
 let forecast = (bot, message) => {
-    if (message.text.split(' ')[0] === '!forecast') {
+    if (message.text.split(' ')[0].toLowerCase() === '!forecast') {
         let day = message.text.split(' ')[1].toUpperCase() || '',
             zip = message.text.split(' ')[2] || '',
             forecastData;
@@ -87,7 +87,7 @@ let forecast = (bot, message) => {
 };
 
 let evaluate = (bot, message) => {
-    if (message.text.split(' ')[0] === '!eval') {
+    if (message.text.split(' ')[0].toLowerCase() === '!eval') {
         try {
             const strToEval = message.text
                 .replace(/(!eval\b)/g, '')
@@ -106,25 +106,27 @@ let evaluate = (bot, message) => {
 };
 
 let define = (bot, message) => {
-    const words = message.text.split(' ').splice(1).join(' ');
+    if (message.text.split(' ')[0].toLowerCase() === '!define') {
+        const words = message.text.split(' ').splice(1).join(' ');
 
-    request(services.urbanDictApi(words), (err, response, body) => {
-        const data = JSON.parse(body);
+        request(services.urbanDictApi(words), (err, response, body) => {
+            const data = JSON.parse(body);
 
-        if (data.result_type === 'exact') {
-            bot.reply(message, `"${data.list[0].definition}"`);
-            if (data.tags.length > 0) {
-                bot.reply(message, `Related: ${data.tags.join(', ')}`);
+            if (data.result_type === 'exact') {
+                bot.reply(message, `"${data.list[0].definition}"`);
+                if (data.tags.length > 0) {
+                    bot.reply(message, `Related: ${data.tags.join(', ')}`);
+                }
             }
-        }
-        else {
-            bot.reply(message, 'No results');
-        }
-    });
+            else {
+                bot.reply(message, 'No results');
+            }
+        });
+    }
 };
 
 let say = (bot, message) => {
-    if (message.text.split(' ')[0] === '!say') {
+    if (message.text.split(' ')[0].toLowerCase() === '!say') {
         let [inputChannel, ...rest] = message.text.split(' ').splice(1),
             text = rest.join(' '),
             sayChannel;

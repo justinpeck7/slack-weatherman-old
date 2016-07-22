@@ -3,6 +3,7 @@
 let channels;
 const request = require('request'),
     secrets = require('./config/secrets'),
+    noresults = require('./config/noresults'),
     services = require('./services'),
     safeEval = require('safe-eval'),
     appId = secrets.weather_appid,
@@ -119,7 +120,8 @@ let define = (bot, message) => {
                 }
             }
             else {
-                bot.reply(message, 'No results');
+                let response = noresults.responses[Math.random() * noresults.responses.length >> 0];
+                bot.reply(message, response);
             }
         });
     }

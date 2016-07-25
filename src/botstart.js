@@ -11,6 +11,7 @@ const secrets = require('./config/secrets'),
 let weatherman;
 
 const startBot = function () {
+    logStream.write('Starting\n');
     weatherman = controller.spawn({
         token: token
     }).startRTM();
@@ -24,7 +25,7 @@ controller.on('rtm_close', () => {
         logStream.write('Retrying connection...\n')
         dns.lookupService('8.8.8.8', 80, (error, hostname) => {
             if (!!hostname) {
-                logStream.write('Connection found, restarting bot...\n')
+                logStream.write('Connection found, restarting bot...\n');
                 startBot();
                 clearInterval(intervalID);
             }

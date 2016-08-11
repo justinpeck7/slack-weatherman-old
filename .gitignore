@@ -2,3 +2,4 @@ node_modules
 secrets.json
 log.txt
 npm-debug.log
+rankings.json

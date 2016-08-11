@@ -1,14 +1,16 @@
 'use strict';
 
-let channels;
+let channels, users = {};
 const request = require('request'),
-    secrets = require('./config/secrets'),
-    noresults = require('./config/noresults'),
-    services = require('./services'),
+    secrets = require('../config/secrets'),
+    noresults = require('../config/noresults'),
+    services = require('../services/services'),
     safeEval = require('safe-eval'),
     appId = secrets.weather_appid,
     token = secrets.slack_token,
     ziptest = /(\b\d{5}\b)/g,
+    parser = require('../plusplus/utils/parser'),
+    plusplus = require('../plusplus/plusplus'),
     days = {
         SUNDAY: 0,
         MONDAY: 1,
@@ -26,7 +28,13 @@ request(services.slackChannelApi(token), (cErr, cResponse, cBody) => {
         for (let group of groups) {
             channels.push(group);
         }
-        console.log(`${channels.length} Channels Found`);
+        request(services.slackUsers(token), (uErr, uResponse, uBody) => {
+            const members = JSON.parse(uBody).members;
+            for (const member of members) {
+                users[member.id] = member.name;
+            }
+            console.log(`${Object.keys(users).length} Users Found across ${channels.length} channels`);
+        });
     });
 });
 
@@ -153,10 +161,48 @@ let say = (bot, message) => {
     }
 };
 
+const addRep = (bot, message) => {
+    if (parser.isValidInput(message.text.split(' '))) {
+        plusplus.updateRep(message, users, true).then(updated => {
+            if (updated.sameUser) {
+                bot.reply(message, `${updated.user}'s rep decreased to ${updated.rank}`);
+            }
+            else {
+                bot.reply(message, `${updated.user}'s rep increased to ${updated.rank}`);
+            }
+        });
+    }
+};
+
+const subtractRep = (bot, message) => {
+    if (parser.isValidInput(message.text.split(' '))) {
+        plusplus.updateRep(message, users, false).then(updated => {
+            bot.reply(message, `${updated.user}'s rep decreased to ${updated.rank}`);
+        });
+    }
+};
+
+const showRanks = (bot, message) => {
+    const sortable = [];
+    plusplus.getRanks().then(stored => {
+        for (const key in stored) {
+            sortable.push([key, stored[key]]);
+        }
+        sortable.sort((a, b) => b[1] - a[1]);
+        for (const entry of sortable) {
+            bot.reply(message, `${entry[0]}: ${entry[1]}`);
+        }
+    });
+};
+
+
 module.exports = {
     weather,
     forecast,
     evaluate,
     define,
-    say
+    say,
+    addRep,
+    subtractRep,
+    showRanks
 };

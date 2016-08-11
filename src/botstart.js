@@ -10,7 +10,7 @@ const secrets = require('./config/secrets'),
     
 let weatherman;
 
-const startBot = function () {
+const startBot = () => {
     logStream.write('Starting\n');
     weatherman = controller.spawn({
         token: token

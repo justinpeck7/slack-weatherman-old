@@ -1,6 +1,5 @@
 'use strict';
 
-let channels, users = {};
 const request = require('request'),
     secrets = require('../config/secrets'),
     noresults = require('../config/noresults'),
@@ -20,6 +19,8 @@ const request = require('request'),
         FRIDAY: 5,
         SATURDAY: 6
     };
+
+let channels, users = {};
 
 request(services.slackChannelApi(token), (cErr, cResponse, cBody) => {
     request(services.slackGroupApi(token), (gErr, gResponse, gBody) => {

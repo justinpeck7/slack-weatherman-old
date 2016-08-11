@@ -20,7 +20,6 @@ const getUserId = input => {
     return null;
 };
 
-
 module.exports = {
     getTarget,
     getUserId,

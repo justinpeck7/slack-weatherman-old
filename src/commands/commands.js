@@ -201,7 +201,6 @@ const showLeaderboard = (bot, message) => {
     });
 };
 
-
 module.exports = {
     weather,
     forecast,

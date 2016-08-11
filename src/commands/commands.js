@@ -182,15 +182,20 @@ const subtractRep = (bot, message) => {
     }
 };
 
-const showRanks = (bot, message) => {
-    const sortable = [];
+const showLeaderboard = (bot, message) => {
+    const sortable = [],
+        space = ' ',
+        divider = '|';
+
     plusplus.getRanks().then(stored => {
         for (const key in stored) {
             sortable.push([key, stored[key]]);
         }
         sortable.sort((a, b) => b[1] - a[1]);
+        bot.reply(message, 'Rankings:');
+        bot.reply(message, '-'.repeat(20));
         for (const entry of sortable) {
-            bot.reply(message, `${entry[0]}: ${entry[1]}`);
+            bot.reply(message, `${entry[1]}${space.repeat(Math.abs(4 - entry[1].toString().length))}${divider} ${entry[0]}`);
         }
     });
 };
@@ -204,5 +209,5 @@ module.exports = {
     say,
     addRep,
     subtractRep,
-    showRanks
+    showLeaderboard
 };

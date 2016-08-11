@@ -38,7 +38,7 @@ controller.on('direct_mention', (bot, message) => {
     bot.reply(message, '!weather [zipcodes]');
     bot.reply(message, '!forecast [day] [zipcode]');
     bot.reply(message, '!define [word]');
-    bot.reply(message, '!rankings');
+    bot.reply(message, '!leaderboard');
     bot.reply(message, '!eval [javascript]');
     bot.reply(message, '[name] ++|--');
 });
@@ -48,6 +48,6 @@ controller.hears('!forecast', 'ambient,direct_message', commands.forecast);
 controller.hears('!eval', 'ambient,direct_message', commands.evaluate);
 controller.hears('!define', 'ambient,direct_message', commands.define);
 controller.hears('!say', 'direct_message', commands.say);
-controller.hears('!rankings', 'ambient,direct_message', commands.showRanks);
+controller.hears('!leaderboard', 'ambient,direct_message', commands.showLeaderboard);
 controller.hears('\\+\\+', 'ambient,direct_message', commands.addRep);
 controller.hears('--', 'ambient,direct_message', commands.subtractRep);

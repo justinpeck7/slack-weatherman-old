@@ -3,12 +3,13 @@
   "version": "1.0.0",
   "description": "weatherman slack bot",
   "scripts": {
-    "start": "node src/index.js"
+    "weatherman": "node weatherman.js"
   },
   "author": "Justin Peck",
   "license": "MIT",
   "dependencies": {
     "botkit": "^0.2.0",
+    "cleverbot.io": "^1.0.4",
     "jsonfile": "^2.3.1",
     "request": "^2.72.0",
     "safe-eval": "^0.3.0"

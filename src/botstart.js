@@ -7,7 +7,7 @@ const secrets = require('./config/secrets'),
     dns = require('dns'),
     logStream = require('fs').createWriteStream(require('path').resolve(__dirname, 'logging/log.txt')),
     controller = botkit.slackbot();
-    
+
 let weatherman;
 
 const startBot = () => {
@@ -33,7 +33,7 @@ controller.on('rtm_close', () => {
     }, 30000);
 });
 
-controller.on('direct_mention', (bot, message) => {
+controller.hears('!commands', (bot, message) => {
     bot.reply(message, 'How to order me around:');
     bot.reply(message, '!weather [zipcodes]');
     bot.reply(message, '!forecast [day] [zipcode]');
@@ -43,6 +43,7 @@ controller.on('direct_mention', (bot, message) => {
     bot.reply(message, '[name] ++|--');
 });
 
+controller.on('direct_mention', commands.ask);
 controller.hears('!weather', 'ambient,direct_message', commands.weather);
 controller.hears('!forecast', 'ambient,direct_message', commands.forecast);
 controller.hears('!eval', 'ambient,direct_message', commands.evaluate);

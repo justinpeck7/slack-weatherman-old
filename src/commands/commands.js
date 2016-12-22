@@ -10,6 +10,7 @@ const request = require('request'),
     ziptest = /(\b\d{5}\b)/g,
     parser = require('../plusplus/utils/parser'),
     plusplus = require('../plusplus/plusplus'),
+    cleverbot = require('../cleverbot/cleverbot.js'),
     days = {
         SUNDAY: 0,
         MONDAY: 1,
@@ -201,6 +202,12 @@ const showLeaderboard = (bot, message) => {
     });
 };
 
+let ask = (bot, message) => {
+    cleverbot.ask(message.text).then(response => {
+        bot.reply(message, response);
+    })
+};
+
 module.exports = {
     weather,
     forecast,
@@ -209,5 +216,6 @@ module.exports = {
     say,
     addRep,
     subtractRep,
-    showLeaderboard
+    showLeaderboard,
+    ask
 };

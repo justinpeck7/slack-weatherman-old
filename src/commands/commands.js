@@ -10,7 +10,8 @@ const request = require('request'),
     ziptest = /(\b\d{5}\b)/g,
     parser = require('../plusplus/utils/parser'),
     plusplus = require('../plusplus/plusplus'),
-    cleverbot = require('../cleverbot/cleverbot.js'),
+    cleverbot = require('../cleverbot/cleverbot'),
+    jeopardy = require('../trivia/jeopardy'),
     days = {
         SUNDAY: 0,
         MONDAY: 1,
@@ -202,10 +203,28 @@ const showLeaderboard = (bot, message) => {
     });
 };
 
-let ask = (bot, message) => {
+const ask = (bot, message) => {
     cleverbot.ask(message.text).then(response => {
         bot.reply(message, response);
     })
+};
+
+const getNewQuestion = (bot, message) => {
+    jeopardy.getNewQuestion().then(response => {
+        bot.reply(message, response);
+    }).catch((err) => {
+        console.log(err);
+    });
+};
+
+const getQuestion = (bot, message) => {
+    const currentQ = jeopardy.getQuestion(),
+        response = `"${currentQ.question}"\n\nOriginally aired ${currentQ.airdate}, was worth ${currentQ.points} points`;
+    bot.reply(message, response);
+};
+
+const getAnswer = (bot, message) => {
+    bot.reply(message, jeopardy.getAnswer());
 };
 
 module.exports = {
@@ -217,5 +236,8 @@ module.exports = {
     addRep,
     subtractRep,
     showLeaderboard,
-    ask
+    ask,
+    getNewQuestion,
+    getQuestion,
+    getAnswer
 };

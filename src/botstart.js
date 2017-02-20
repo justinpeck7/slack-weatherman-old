@@ -33,14 +33,21 @@ controller.on('rtm_close', () => {
     }, 30000);
 });
 
-controller.hears('!commands', (bot, message) => {
-    bot.reply(message, 'How to order me around:');
-    bot.reply(message, '!weather [zipcodes]');
-    bot.reply(message, '!forecast [day] [zipcode]');
-    bot.reply(message, '!define [word]');
-    bot.reply(message, '!leaderboard');
-    bot.reply(message, '!eval [javascript]');
-    bot.reply(message, '[name] ++|--');
+controller.hears('!commands', 'ambient,direct_message', (bot, message) => {
+    const cmds = `How to order me around:
+    !weather [zipcodes]
+    !forecast [day] [zipcode]
+    !define [word]
+    !leaderboard
+    !eval [javascript]
+    [name] ++|--
+    
+    Trivia:
+    !trebek -- get new question
+    !question -- show current question
+    !answer -- show answer to current question`;
+
+    bot.reply(message, cmds);
 });
 
 controller.on('direct_mention', commands.ask);
@@ -52,3 +59,6 @@ controller.hears('!say', 'direct_message', commands.say);
 controller.hears('!leaderboard', 'ambient,direct_message', commands.showLeaderboard);
 controller.hears('\\+\\+', 'ambient,direct_message', commands.addRep);
 controller.hears('--', 'ambient,direct_message', commands.subtractRep);
+controller.hears('!trebek', 'ambient,direct_message', commands.getNewQuestion);
+controller.hears('!question', 'ambient,direct_message', commands.getQuestion);
+controller.hears('!answer', 'ambient,direct_message', commands.getAnswer);

@@ -41,7 +41,7 @@ controller.hears('!commands', 'ambient,direct_message', (bot, message) => {
     !leaderboard
     !eval [javascript]
     [name] ++|--
-    
+
     Trivia:
     !trebek -- get new question
     !question -- show current question
@@ -50,7 +50,7 @@ controller.hears('!commands', 'ambient,direct_message', (bot, message) => {
     bot.reply(message, cmds);
 });
 
-controller.on('direct_mention', commands.ask);
+controller.on('direct_mention', commands.sendMessage);
 controller.hears('!weather', 'ambient,direct_message', commands.weather);
 controller.hears('!forecast', 'ambient,direct_message', commands.forecast);
 controller.hears('!eval', 'ambient,direct_message', commands.evaluate);

@@ -10,7 +10,7 @@ const request = require('request'),
     ziptest = /(\b\d{5}\b)/g,
     parser = require('../plusplus/utils/parser'),
     plusplus = require('../plusplus/plusplus'),
-    cleverbot = require('../cleverbot/cleverbot'),
+    botlibre = require('../botlibre/botlibre'),
     jeopardy = require('../trivia/jeopardy'),
     days = {
         SUNDAY: 0,
@@ -203,8 +203,8 @@ const showLeaderboard = (bot, message) => {
     });
 };
 
-const ask = (bot, message) => {
-    cleverbot.ask(message.text).then(response => {
+const sendMessage = (bot, message) => {
+    botlibre.sendMessage(message.text).then(response => {
         bot.reply(message, response);
     })
 };
@@ -227,6 +227,10 @@ const getAnswer = (bot, message) => {
     bot.reply(message, jeopardy.getAnswer());
 };
 
+const image = (bot, message) => {
+    //AIzaSyCDQH0vOy2RLKp4tl8P_VOED540NQFi81M
+};
+
 module.exports = {
     weather,
     forecast,
@@ -236,8 +240,9 @@ module.exports = {
     addRep,
     subtractRep,
     showLeaderboard,
-    ask,
+    sendMessage,
     getNewQuestion,
     getQuestion,
-    getAnswer
+    getAnswer,
+    image
 };

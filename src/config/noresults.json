@@ -1,9 +1,10 @@
 {
-    "responses": [
-        "What?",
-        "No",
-        "Open to interpretation",
-        "I got nothing",
-        "Is that even a word?"
-    ]
+  "responses": [
+    "What?",
+    "No",
+    "I don't think I will",
+    "No, and TEI",
+    "I got nothing",
+    "Is that even a word?"
+  ]
 }

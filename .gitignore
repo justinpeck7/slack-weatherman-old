@@ -1,5 +1,7 @@
 node_modules
 secrets.json
-log.txt
+error.log
 npm-debug.log
 rankings.json
+.DS_STORE
+.vscode/

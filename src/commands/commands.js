@@ -146,9 +146,13 @@ let define = (bot, message) => {
 
     request(services.urbanDictApi(words), (err, response, body) => {
       const data = JSON.parse(body);
+      console.log(data);
 
-      if (data.result_type === "exact") {
-        bot.reply(message, `"${data.list[0].definition}"`);
+      if (data.list && data.list.length) {
+        let { definition } = data.list[0];
+        definition = definition.replace(/\[/g, "").replace(/]/g, "");
+
+        bot.reply(message, `${definition}`);
         if (data.tags.length > 0) {
           bot.reply(message, `Related: ${data.tags.join(", ")}`);
         }
